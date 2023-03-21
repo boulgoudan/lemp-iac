@@ -1,0 +1,11 @@
+environment: development
+container:
+  name: employees-php
+  port: 9000
+  image: php
+  tag: 7.4-fpm
+replicas: 1
+pvc:
+  name: app-persistent-volume
+  path: /var/www/html
+  claim: pv-claim-app

@@ -1,0 +1,16 @@
+environment: development
+container:
+  name: employees-mysql
+  port: 3306
+  image: mysql:5.7
+  tag: employees
+replicas: 1
+db:
+  name: employees
+  rootpassword: rootpassword
+  user: user
+  userpassword: password
+volume:
+  name: mysql-persistent-storage
+  path: /var/lib/mysql
+  claim: pv-claim-mysql
