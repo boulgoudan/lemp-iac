@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app }}
+        environment: {{ .Values.environment }}
+    spec:
+      containers:
+        - name: {{ .Values.containers.php.name }}
+          image: {{ .Values.containers.php.image }}:{{ .Values.containers.php.tag }}
+          ports:
+            - containerPort: {{ .Values.containers.php.port }}
+          env:
+            - name: environment
+              value: {{ .Values.environment }}
+          volumeMounts:
+            - name: {{ .Values.pvc.name }}
+              mountPath: {{ .Values.pvc.path }}
+        - name: {{ .Values.containers.nginx.name }}
+          image: {{ .Values.containers.nginx.image }}:{{ .Values.containers.nginx.tag }}
+          ports:
+            - containerPort: {{ .Values.containers.nginx.port }}
+          env:
+            - name: environment
+              value: {{ .Values.environment }}
+          volumeMounts:
+            - name: {{ .Values.cm.name }}
+              mountPath: {{ .Values.cm.path }}
+            - name: {{ .Values.pvc.name }}
+              mountPath: {{ .Values.pvc.path }}
+      volumes:
+        - name: {{ .Values.cm.name }}
+          configMap:
+            name: nginx-php-config
+        - name: {{ .Values.pvc.name }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.pvc.claim }}

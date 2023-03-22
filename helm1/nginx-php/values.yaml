@@ -1,0 +1,22 @@
+environment: production
+namespace: prd
+app: employees
+containers:
+  nginx:
+    name: nginx
+    port: 80
+    image: nginx
+    tag: latest
+    replicas: 1
+  php:
+    name: php
+    port: 9000
+    image: php
+    tag: 7.4-fpm
+pvc:
+  name: nginx-php-persistent-volume
+  path: /var/www/html
+  claim: nginx-php-pv-claim
+cm:
+  name: nginx-config-volume
+  path: /etc/nginx/conf.d
