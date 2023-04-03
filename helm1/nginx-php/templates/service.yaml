@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.containers.php.name }}
   labels:
-    app: {{ .Values.containers.php.name }}
+    app: {{ .Values.app }}
 spec:
   ports:
   - port: {{ .Values.containers.php.port }}
@@ -11,14 +11,14 @@ spec:
     targetPort: {{ .Values.containers.php.port }}
   selector:
     app: {{ .Values.app }}
-  type: ClusterIP
+  type: NodePort
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.containers.nginx.name }}
   labels:
-    app: {{ .Values.containers.nginx.name }}
+    app: {{ .Values.app }}
 spec:
   ports:
   - port: {{ .Values.containers.nginx.port }}

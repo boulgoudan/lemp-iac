@@ -11,12 +11,13 @@ containers:
   php:
     name: php
     port: 9000
-    image: php
+    image: mboulgoudan/my-php
     tag: 7.4-fpm
 pvc:
-  name: nginx-php-persistent-volume
+  volume: nginx-php-persistent-volume
   path: /var/www/html
   claim: nginx-php-pv-claim
 cm:
-  name: nginx-config-volume
+  name: nginx-php-config
+  volume: nginx-config-volume
   path: /etc/nginx/conf.d
