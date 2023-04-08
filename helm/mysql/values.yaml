@@ -1,16 +1,25 @@
-environment: development
-container:
-  name: employees-mysql
-  port: 3306
-  image: mysql:5.7
-  tag: employees
+environment: production
+namespace: prd
+app: prd-employees
 replicas: 1
+container:
+  name: prd-employees-mysql
+  port: 3306
+  image: mysql
+  tag: 5.7
+  imagePullPolicy: "IfNotPresent"
+  containerSecurityContext:
+    runAsUser: 1001
+    runAsNonRoot: true
+  podSecurityContext:
+    fsGroup: 1001
 db:
-  name: employees
+  name: prd-employees
   rootpassword: rootpassword
   user: user
   userpassword: password
-volume:
-  name: mysql-persistent-storage
-  path: /var/lib/mysql
-  claim: pv-claim-mysql
+pvc:
+  volume: mysql-pv
+  permissions: mysql-pv-permissions
+  path: /data/mysql-volume
+  claim: mysql-pv-claim

@@ -2,13 +2,16 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.container.name }}-service
+  namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.container.name }}
+    app: {{ .Values.app }}
+    environment: {{ .Values.environment }}
 spec:
   ports:
-  - port: 3307
+  - port: {{ .Values.container.port }}
     protocol: TCP
     targetPort: {{ .Values.container.port }}
   selector:
-    app: {{ .Values.container.name }}
-  type: LoadBalancer
+    app: {{ .Values.app }}
+    environment: {{ .Values.environment }}
+  type: NodePort
