@@ -1,14 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.container.name }}
+  name: {{ .Values.container.name }}-service
+  namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.container.name }}
 spec:
   ports:
-  - port: 81
+  - port: {{ .Values.container.port }}
     protocol: TCP
     targetPort: {{ .Values.container.port }}
   selector:
     app: {{ .Values.container.name }}
-  type: LoadBalancer
+  type: NodePort

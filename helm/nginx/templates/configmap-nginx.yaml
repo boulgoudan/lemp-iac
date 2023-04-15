@@ -1,7 +1,10 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: nginx-config
+  name: {{ .Values.cm.name }}
+  labels:
+    app: {{ .Values.app }}
+    namespace: {{ .Values.namespace }}
 data:
   default.conf: |
     server {
@@ -16,7 +19,7 @@ data:
       location / {
         try_files $uri $uri/ /index.php$is_args$query_string;
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass php:9000;
+        fastcgi_pass prd-employees-php-service:9000;
         fastcgi_index index.php;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;

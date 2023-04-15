@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.container.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
@@ -11,25 +12,22 @@ spec:
     metadata:
       labels:
         app: {{ .Values.container.name }}
-        environment: {{ .Values.environment }}
     spec:
       containers:
         - name: {{ .Values.container.name }}
           image: {{ .Values.container.image }}:{{ .Values.container.tag }}
+          imagePullPolicy: {{ .Values.container.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.container.port }}
-          env:
-            - name: environment
-              value: {{ .Values.environment }}
           volumeMounts:
             - name: {{ .Values.cm.name }}
               mountPath: {{ .Values.cm.path }}
-            - name: {{ .Values.pvc.name }}
+            - name: {{ .Values.pvc.volume }}
               mountPath: {{ .Values.pvc.path }}
       volumes:
         - name: {{ .Values.cm.name }}
           configMap:
-            name: nginx-config
-        - name: {{ .Values.pvc.name }}
+            name: {{ .Values.cm.name }}
+        - name: {{ .Values.pvc.volume }}
           persistentVolumeClaim:
             claimName: {{ .Values.pvc.claim }}

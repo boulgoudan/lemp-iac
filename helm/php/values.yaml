@@ -1,11 +1,19 @@
-environment: development
+environment: production
+namespace: prd
+app: prd-employees
 container:
-  name: employees-php
+  name: prd-employees-php
   port: 9000
-  image: php
+  image: mboulgoudan/my-php
   tag: 7.4-fpm
+  imagePullPolicy: "IfNotPresent"
+  containerSecurityContext:
+    runAsUser: 1001
+    runAsNonRoot: true
+  podSecurityContext:
+    fsGroup: 1001
 replicas: 1
 pvc:
-  name: app-persistent-volume
+  volume: app-persistent-volume
   path: /var/www/html
-  claim: pv-claim-app
+  claim: app-pv-claim

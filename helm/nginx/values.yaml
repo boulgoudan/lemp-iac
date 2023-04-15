@@ -1,14 +1,23 @@
-environment: development
+environment: production
+namespace: prd
+app: prd-employees
 container:
-  name: employees-nginx
+  name: prd-employees-nginx
   port: 80
   image: nginx
   tag: latest
+  imagePullPolicy: "IfNotPresent"
+  containerSecurityContext:
+    runAsUser: 1001
+    runAsNonRoot: true
+  podSecurityContext:
+    fsGroup: 1001
 replicas: 1
 pvc:
-  name: app-persistent-volume
+  volume: app-persistent-volume
   path: /var/www/html
-  claim: pv-claim-app
+  claim: app-pv-claim
 cm:
-  name: nginx-config-volume
+  name: nginx-php-config
+  volume: nginx-config-volume
   path: /etc/nginx/conf.d
