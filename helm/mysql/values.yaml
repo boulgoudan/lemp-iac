@@ -5,8 +5,8 @@ replicas: 1
 container:
   name: prd-employees-mysql
   port: 3306
-  image: mysql
-  tag: 5.7
+  image: arm64v8/mysql
+  tag: 8.3
   imagePullPolicy: "IfNotPresent"
   containerSecurityContext:
     runAsUser: 1001

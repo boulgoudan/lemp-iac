@@ -4,8 +4,8 @@ app: prd-employees
 container:
   name: prd-employees-php
   port: 9000
-  image: mboulgoudan/my-php
-  tag: 7.4-fpm
+  image: mboulgoudan/arm64v8-php8.3fpm
+  tag: 8.3fpm
   imagePullPolicy: "IfNotPresent"
   containerSecurityContext:
     runAsUser: 1001
@@ -17,3 +17,4 @@ pvc:
   volume: app-persistent-volume
   path: /var/www/html
   claim: app-pv-claim
+ 

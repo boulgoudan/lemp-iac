@@ -4,7 +4,7 @@ app: prd-employees
 container:
   name: prd-employees-nginx
   port: 80
-  image: nginx
+  image: arm64v8/nginx
   tag: latest
   imagePullPolicy: "IfNotPresent"
   containerSecurityContext:
